@@ -18,4 +18,12 @@ defmodule Rumbl.User do
 
     #both cast and validate_length are defined in the Ecto.Changset module which we import as part of all models in web/web.ex
   end
+
+  def registration_changeset(model, params) do
+    model
+    |> changeset(params)
+    |> cast(params, ~w(password), [])
+    |> validate_length(:password, min: 6, max: 100)
+    |> put_pass_hash()
+  end
 end
